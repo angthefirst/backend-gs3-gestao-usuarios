@@ -1,10 +1,7 @@
-package com.angleby.gs3.gestao.domain.usuario;
+package com.angleby.gs3.gestao.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,35 +11,54 @@ import java.util.Collections;
 import java.util.List;
 
 @Table(name = "USUARIO")
-@Entity(name = "USUARIO")
-@Getter
+@Entity
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Usuario implements UserDetails {
+
     @Id
+    @Column(name = "ID_USUARIO")
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String nomeDeUsuario;
+
+    @Column(name = "LOGIN")
+    private String login;
+
+    @Column(name = "SENHA")
     private String senha;
+
+    @Column(name = "NOME_COMPLETO")
+    private String nomeCompleto;
+
+    @Column(name = "EMAIL")
+    private String email;
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Endereco endereco;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PERFIL")
     private Perfil perfil;
 
-    public Usuario(String nomeDeUsuario, String senha, Perfil perfil){
-        this.nomeDeUsuario = nomeDeUsuario;
+    public Usuario(String login, String senha, Perfil perfil){
+        this.login = login;
         this.senha = senha;
         this.perfil = perfil;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.perfil == Perfil.ADMIN) return List.of(new SimpleGrantedAuthority("PERFIL_ADMIN"));
-        if(this.perfil == Perfil.COMUM) return List.of(new SimpleGrantedAuthority("PERFIL_COMUM"));
+        //if(this.perfil == Perfil.ADMIN) return List.of(new SimpleGrantedAuthority("PERFIL_ADMIN"));
+        //if(this.perfil == Perfil.COMUM) return List.of(new SimpleGrantedAuthority("PERFIL_COMUM"));
         return Collections.emptyList();
     }
 
     @Override
     public String getUsername() {
-        return nomeDeUsuario;
+        return login;
     }
 
     @Override

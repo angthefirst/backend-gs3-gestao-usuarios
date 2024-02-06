@@ -1,6 +1,6 @@
 package com.angleby.gs3.gestao.config;
 
-import com.angleby.gs3.gestao.domain.usuario.Usuario;
+import com.angleby.gs3.gestao.domain.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -22,7 +22,7 @@ public class TokenService {
             Algorithm algorithm = Algorithm.HMAC256(tokenSecret);
             String token = JWT.create()
                     .withIssuer("gs3-gestao-usuarios")
-                    .withSubject(usuario.getNomeDeUsuario())
+                    .withSubject(usuario.getLogin())
                     .withExpiresAt(gerarTempoDeExpiracaoDoToken())
                     .sign(algorithm);
             return token;
