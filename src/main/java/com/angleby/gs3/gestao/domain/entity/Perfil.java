@@ -12,9 +12,6 @@ import lombok.*;
 @EqualsAndHashCode(of = "id")
 public class Perfil {
 
-    public static final String ADMIN = "ADMIN";
-    public static final String COMUM = "COMUM";
-
     @Id
     @Column(name = "ID_PERFIL")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

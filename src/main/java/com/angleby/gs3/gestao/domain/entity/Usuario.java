@@ -1,5 +1,6 @@
 package com.angleby.gs3.gestao.domain.entity;
 
+import com.angleby.gs3.gestao.domain.constante.PerfilEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -51,8 +52,8 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(Objects.equals(this.perfil.getDescricao(), Perfil.ADMIN)) return List.of(new SimpleGrantedAuthority(Perfil.ADMIN));
-        if(Objects.equals(this.perfil.getDescricao(), Perfil.COMUM)) return List.of(new SimpleGrantedAuthority(Perfil.COMUM));
+        if(Objects.equals(this.perfil.getDescricao(), PerfilEnum.ADMIN.getDescricao())) return List.of(new SimpleGrantedAuthority(PerfilEnum.ADMIN.getDescricao()));
+        if(Objects.equals(this.perfil.getDescricao(), PerfilEnum.COMUM.getDescricao())) return List.of(new SimpleGrantedAuthority(PerfilEnum.COMUM.getDescricao()));
         return Collections.emptyList();
     }
 

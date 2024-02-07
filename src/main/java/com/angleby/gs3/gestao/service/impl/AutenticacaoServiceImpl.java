@@ -5,6 +5,7 @@ import com.angleby.gs3.gestao.domain.dto.AutenticacaoDTO;
 import com.angleby.gs3.gestao.domain.dto.RetornoLoginDTO;
 import com.angleby.gs3.gestao.domain.dto.UsuarioDTO;
 import com.angleby.gs3.gestao.domain.entity.Usuario;
+import com.angleby.gs3.gestao.exception.LoginInvalidoException;
 import com.angleby.gs3.gestao.repository.EnderecoRepository;
 import com.angleby.gs3.gestao.repository.UsuarioRepository;
 import com.angleby.gs3.gestao.service.AutenticacaoService;
@@ -14,6 +15,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import static java.util.Objects.nonNull;
 
 @AllArgsConstructor
 @Service
@@ -37,11 +41,12 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
     }
 
     @Override
+    @Transactional
     public void realizarRegistro(UsuarioDTO usuarioDTO) {
-        if(this.usuarioRepository.findByLogin(usuarioDTO.login()) != null)
-            throw new RuntimeException("Login já utilizado.");
+        if(nonNull(this.usuarioRepository.findByLogin(usuarioDTO.login())))
+            throw new LoginInvalidoException();
 
-        Usuario usuario = this.usuarioRepository.save(usuarioMapper.dtoParaEntidade(usuarioDTO));
+        Usuario usuario = this.usuarioRepository.save(usuarioMapper.dtoParaEntidadePerfilComum(usuarioDTO));
         this.enderecoRepository.save(enderecoMapper.dtoParaEntidade(usuarioDTO.endereco(), usuario));
     }
 }
