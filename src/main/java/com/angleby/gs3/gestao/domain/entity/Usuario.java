@@ -1,14 +1,12 @@
-package com.angleby.gs3.gestao.domain;
+package com.angleby.gs3.gestao.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Table(name = "USUARIO")
 @Entity
@@ -36,16 +34,15 @@ public class Usuario implements UserDetails {
     @Column(name = "EMAIL")
     private String email;
 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private Endereco endereco;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERFIL")
     private Perfil perfil;
 
-    public Usuario(String login, String senha, Perfil perfil){
+    public Usuario(String login, String senha, String nomeCompleto, String email, Perfil perfil) {
         this.login = login;
         this.senha = senha;
+        this.nomeCompleto = nomeCompleto;
+        this.email = email;
         this.perfil = perfil;
     }
 

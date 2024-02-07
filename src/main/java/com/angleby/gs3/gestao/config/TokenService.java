@@ -1,6 +1,6 @@
 package com.angleby.gs3.gestao.config;
 
-import com.angleby.gs3.gestao.domain.Usuario;
+import com.angleby.gs3.gestao.domain.entity.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

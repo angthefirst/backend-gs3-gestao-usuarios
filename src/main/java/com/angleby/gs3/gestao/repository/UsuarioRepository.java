@@ -1,6 +1,6 @@
 package com.angleby.gs3.gestao.repository;
 
-import com.angleby.gs3.gestao.domain.Usuario;
+import com.angleby.gs3.gestao.domain.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 

@@ -1,4 +1,4 @@
-package com.angleby.gs3.gestao.domain;
+package com.angleby.gs3.gestao.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,6 +15,9 @@ import lombok.NoArgsConstructor;
 public class Endereco {
 
     @Id
+    private String id;
+
+    @MapsId
     @OneToOne
     @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;

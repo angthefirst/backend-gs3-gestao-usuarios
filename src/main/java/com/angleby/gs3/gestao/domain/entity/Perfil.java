@@ -1,4 +1,4 @@
-package com.angleby.gs3.gestao.domain;
+package com.angleby.gs3.gestao.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,5 +18,5 @@ public class Perfil {
     private Long id;
 
     @Column(name = "DESCRICAO")
-    private String login;
+    private String descricao;
 }
