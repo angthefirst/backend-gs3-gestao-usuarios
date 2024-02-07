@@ -3,10 +3,13 @@ package com.angleby.gs3.gestao.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 @Table(name = "USUARIO")
 @Entity
@@ -48,8 +51,8 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        //if(this.perfil == Perfil.ADMIN) return List.of(new SimpleGrantedAuthority("PERFIL_ADMIN"));
-        //if(this.perfil == Perfil.COMUM) return List.of(new SimpleGrantedAuthority("PERFIL_COMUM"));
+        if(Objects.equals(this.perfil.getDescricao(), Perfil.ADMIN)) return List.of(new SimpleGrantedAuthority(Perfil.ADMIN));
+        if(Objects.equals(this.perfil.getDescricao(), Perfil.COMUM)) return List.of(new SimpleGrantedAuthority(Perfil.COMUM));
         return Collections.emptyList();
     }
 

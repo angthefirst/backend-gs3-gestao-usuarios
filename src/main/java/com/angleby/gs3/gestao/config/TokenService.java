@@ -6,11 +6,15 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Service
 public class TokenService {
@@ -24,6 +28,7 @@ public class TokenService {
                     .withIssuer("gs3-gestao-usuarios")
                     .withSubject(usuario.getLogin())
                     .withExpiresAt(gerarTempoDeExpiracaoDoToken())
+                    .withClaim("perfis", getPerfis(usuario))
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {
@@ -42,6 +47,15 @@ public class TokenService {
         } catch (JWTVerificationException exception){
             return "";
         }
+    }
+
+    private List<String> getPerfis(Usuario usuario) {
+        Collection<? extends GrantedAuthority> authorities = usuario.getAuthorities();
+        List<String> perfis = new ArrayList<>();
+        for (GrantedAuthority authority : authorities) {
+            perfis.add(authority.getAuthority());
+        }
+        return perfis;
     }
 
     private Instant gerarTempoDeExpiracaoDoToken() {
