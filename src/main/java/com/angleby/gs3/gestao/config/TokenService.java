@@ -29,6 +29,7 @@ public class TokenService {
                     .withSubject(usuario.getLogin())
                     .withExpiresAt(gerarTempoDeExpiracaoDoToken())
                     .withClaim("perfis", getPerfis(usuario))
+                    .withClaim("idUsuario", usuario.getId())
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {
