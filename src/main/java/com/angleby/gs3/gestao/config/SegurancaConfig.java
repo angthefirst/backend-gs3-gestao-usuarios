@@ -21,6 +21,8 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @Configuration
 @EnableWebSecurity
 public class SegurancaConfig {
+    private static final String[] SWAGGER_PATHS = {"/gs3-gestao-docs/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/webjars/swagger-ui/**"};
+
     SegurancaFilter segurancaFilter;
 
     @Bean
@@ -35,6 +37,7 @@ public class SegurancaConfig {
                         .requestMatchers(toH2Console()).permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/registro").permitAll()
+                        .requestMatchers(HttpMethod.GET, SWAGGER_PATHS).permitAll()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
