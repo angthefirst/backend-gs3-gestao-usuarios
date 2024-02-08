@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Objects.nonNull;
+
 @AllArgsConstructor
 @Component
 public class UsuarioMapper implements MapperAbstrato<Usuario, UsuarioDTO> {
@@ -36,14 +38,19 @@ public class UsuarioMapper implements MapperAbstrato<Usuario, UsuarioDTO> {
 
     @Override
     public Usuario dtoParaEntidade(UsuarioDTO usuarioDTO) {
-        return Usuario.builder()
-                .id(usuarioDTO.id())
-                .login(usuarioDTO.login())
-                .senha(new BCryptPasswordEncoder().encode(usuarioDTO.senha()))
-                .nomeCompleto(usuarioDTO.nomeCompleto())
-                .email(usuarioDTO.email())
-                .perfil(perfilMapper.dtoParaEntidade(usuarioDTO.perfil()))
-                .build();
+        if (nonNull(usuarioDTO)) {
+            return Usuario.builder()
+                    .id(usuarioDTO.id())
+                    .login(usuarioDTO.login())
+                    .senha(nonNull(usuarioDTO.senha()) ? new BCryptPasswordEncoder().encode(usuarioDTO.senha()) : null)
+                    .nomeCompleto(usuarioDTO.nomeCompleto())
+                    .email(usuarioDTO.email())
+                    .perfil(perfilMapper.dtoParaEntidade(usuarioDTO.perfil()))
+                    .build();
+        }
+        else {
+            return null;
+        }
     }
 
     public Usuario dtoParaEntidadePerfilComum(UsuarioDTO usuarioDTO) {

@@ -34,7 +34,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional
     public RetornoDadosUsuarioDTO atualizarUsuarioEPerfil(String idUsuario, UsuarioDTO usuarioDTO) {
-        Usuario usuarioSalvo = getUsuarioPorId(usuarioDTO.id());
+        Usuario usuarioSalvo = getUsuarioPorId(idUsuario);
 
         Usuario usuarioComDadosAtualizados = parseEntidadeUsuarioComDadosAtualizadosByPerfilAdmin(usuarioDTO, usuarioSalvo);
         Endereco enderecoComDadosAtualizados = parseEntidadeEnderecoComDadosAtualizados(idUsuario, usuarioDTO);
@@ -114,6 +114,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private Endereco parseEntidadeEnderecoComDadosAtualizados(String idUsuario, UsuarioDTO usuarioDTO) {
         Endereco enderecoComDadosAtualizados = enderecoMapper.dtoParaEntidade(usuarioDTO.endereco());
         enderecoComDadosAtualizados.setUsuario(Usuario.builder().id(idUsuario).build());
+        enderecoComDadosAtualizados.setId(idUsuario);
         return enderecoComDadosAtualizados;
     }
 }
